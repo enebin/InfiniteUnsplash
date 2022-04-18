@@ -37,7 +37,7 @@ class ImageFetchingManager {
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.addValue("Client-ID \(YOUR_API_KEY)", forHTTPHeaderField: "Authorization")
+        request.addValue("Client-ID N__T7fe8l0CJPYWZ9PSqzKICfHa3dhkWngPl9lQn8mg", forHTTPHeaderField: "Authorization")
         
         return URLSession.shared.dataTaskPublisher(for: request)
             .retry(3)

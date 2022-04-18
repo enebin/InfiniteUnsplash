@@ -8,15 +8,14 @@
 import Combine
 import UIKit
 
-/// 각 셀에서 사용할 목적으로 주입되는 뷰 모델입니다.
-/// 웹에서 이미지, 작가 정보와 같은 셀 내부 정보를 수신한 후 비동기적으로 업데이트 이벤트를 전달합니다.
+/// This view model should be injected from outside
+/// Receiving url and author's name from outside and then handle the network event in asycn way
 class ImageCellViewModel {
     private var subscriptions = Set<AnyCancellable>()
     
     let image = CurrentValueSubject<UIImage, Never>(UIImage())
     let author = CurrentValueSubject<String, Never>("")
 
-    // 외부에서 이미지 관련 데이터를 받아 뷰 모델 프로퍼티를 업데이트합니다
     init(source: ImageMetaData) {
         ImageFetchingManager.downloadImage(url: source.smallSizedImageUrl)
             .sink(receiveCompletion: { result in
@@ -28,10 +27,10 @@ class ImageCellViewModel {
                 }
             }, receiveValue: { [weak self] value in
                 guard let self = self else { return }
-                // 이미지 업데이트
+                // Update image
                 self.image.send(value)
                 
-                // 작가 정보 업데이트
+                // Update author
                 self.author.send(source.author)
             })
             .store(in: &subscriptions)

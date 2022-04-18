@@ -30,7 +30,6 @@ class ImageCell: UICollectionViewCell {
     }()
     
     
-    // MARK: 뷰 초기작업(외부 실행)
     func setUp(viewModel: ImageCellViewModel) {
         self.viewModel = viewModel
         
@@ -39,7 +38,6 @@ class ImageCell: UICollectionViewCell {
     }
     
     
-    // MARK: 뷰 레이아웃 설정하기
     func setLayout() {
         addSubview(imageView)
         self.imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -67,13 +65,11 @@ class ImageCell: UICollectionViewCell {
     }
     
     
-    // MARK: 뷰와 뷰모델 바인딩
     func setBinding() {
         guard let viewModel = viewModel else {
             return
         }
         
-        // 이미지 데이터 바인딩
         viewModel.image
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] value in
@@ -82,7 +78,6 @@ class ImageCell: UICollectionViewCell {
             })
             .store(in: &subscriptions)
         
-        // 작가 텍스트 바인딩
         viewModel.author
             .receive(on: DispatchQueue.main)
             .sink(receiveValue: { [weak self] value in
